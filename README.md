@@ -110,7 +110,8 @@ if __name__ == "__main__":
 
 ```
 ### Output:
-![Screenshot 2024-09-21 141158](https://github.com/user-attachments/assets/4b3b9841-3a57-4111-a29d-0a85ab3528d3)
+![web picex5](https://github.com/user-attachments/assets/8a2d1259-d9c3-4e1b-bc7c-af66b3954966)
+
 
 ### Result:
 Thus the experiment is proved successfully.
