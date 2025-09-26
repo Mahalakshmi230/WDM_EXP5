@@ -122,7 +122,7 @@ if __name__ == "__main__":
 # python and programming
 <img width="1043" height="410" alt="Screenshot 2025-09-26 110512" src="https://github.com/user-attachments/assets/3d1de97f-f9da-4f95-8b10-aa3685b74117" />
 
-# python and information
+# python or information
 <img width="1040" height="407" alt="Screenshot 2025-09-26 110528" src="https://github.com/user-attachments/assets/093709f7-379e-45cc-bdda-76c9459546d7" />
 
 # boolean not information
