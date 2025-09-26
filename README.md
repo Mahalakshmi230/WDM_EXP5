@@ -1,5 +1,5 @@
 ### EX5 Information Retrieval Using Boolean Model in Python
-### DATE: 21.9.2024
+### DATE: 26.9.2025
 ### AIM: To implement Information Retrieval Using Boolean Model in Python.
 ### Description:
 <div align = "justify">
@@ -56,54 +56,48 @@ class BooleanRetrieval:
 
     def print_documents_matrix_table(self):
         df = pd.DataFrame(self.documents_matrix, columns=self.index.keys())
+        print("\nDocuments-Terms Matrix:")
         print(df)
 
     def print_all_terms(self):
-        print("All terms in the documents:")
+        print("\nAll terms in the documents:")
         print(list(self.index.keys()))
 
     def boolean_search(self, query):
-        query_terms = query.lower().split()
-        results = set()  # Initialize as empty set to accumulate results
-        current_set = None  # Current set to handle 'or' logic
+        query = query.lower().split()
+        result_docs = None
 
         i = 0
-        while i < len(query_terms):
-            term = query_terms[i]
+        while i < len(query):
+            term = query[i]
 
-            if term == 'or':
-                if current_set is not None:
-                    results.update(current_set)
-                current_set = None  # Reset current set for the next term
-            elif term == 'and':
+            # Handle NOT
+            if term == "not":
                 i += 1
-                continue  # 'and' is implicit, move to next term
-            elif term == 'not':
-                i += 1
-                if i < len(query_terms):
-                    not_term = query_terms[i]
-                    if not_term in self.index:
-                        not_docs = self.index[not_term]
-                        if current_set is None:
-                            current_set = set(range(1, len(documents) + 1))  # All doc IDs
-                        current_set.difference_update(not_docs)
-            else:
-                if term in self.index:
-                    term_docs = self.index[term]
-                    if current_set is None:
-                        current_set = term_docs.copy()
-                    else:
-                        current_set.intersection_update(term_docs)
+                if i < len(query):
+                    term = query[i]
+                    docs = set(self.index.keys())  # all terms
+                    all_docs = set()
+                    for d in self.index.values():
+                        all_docs.update(d)
+                    docs = all_docs - self.index.get(term, set())
                 else:
-                    current_set = set()  # If the term doesn't exist, it results in an empty set
+                    docs = set()
+            else:
+                docs = self.index.get(term, set())
+
+            if result_docs is None:
+                result_docs = docs
+            else:
+                if query[i-1] == "and":
+                    result_docs = result_docs & docs
+                elif query[i-1] == "or":
+                    result_docs = result_docs | docs
 
             i += 1
 
-        # Update results with the last processed set
-        if current_set is not None:
-            results.update(current_set)
+        return result_docs if result_docs else set()
 
-        return sorted(results)
 
 if __name__ == "__main__":
     indexer = BooleanRetrieval()
@@ -115,23 +109,24 @@ if __name__ == "__main__":
     }
 
     for doc_id, text in documents.items():
-        indexer.index_document(doc_id, text)
+        indexer.index_document(doc_id, text) 
 
     indexer.create_documents_matrix(documents)
     indexer.print_documents_matrix_table()
     indexer.print_all_terms()
 
-    query = input("Enter your boolean query: ")
+    query = input("\nEnter your boolean query (use AND/OR/NOT): ")
     results = indexer.boolean_search(query)
+
     if results:
-        print(f"Results for '{query}': {results}")
+        print(f"\nResults for '{query}': {results}")
     else:
-        print("No results found for the query.")
+        print("\nNo results found for the query.")
 
 
 ```
 ### Output:
-![Screenshot 2024-09-28 133352](https://github.com/user-attachments/assets/fc47cbb8-c2c6-4d3a-8306-032e48400226)
+<img width="1031" height="402" alt="Screenshot 2025-09-26 102904" src="https://github.com/user-attachments/assets/44925227-8374-4e7f-af74-cc71ab539117" />
 
 ### Result:
 Thus the experiment is proved successfully.
